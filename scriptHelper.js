@@ -4,25 +4,23 @@ require('isomorphic-fetch');
 
 async function pickPlanet () {
     window.addEventListener("load", () => {
-    fetch("https://handlers.education.launchcode.org/static/planets.json").then(function (response) {
-        response.json().then(function (json) {
-            const missionTarget = document.getElementById("missionTarget");
-                let index = Math.floor(Math.random() * (json.length));
-                    // container.addEventListener("click", function(){
+        fetch("https://handlers.education.launchcode.org/static/planets.json").then(function (response) {
+            response.json().then(function (planetaryData) {
+                const missionTarget = document.getElementById("missionTarget");
+                    let index = Math.floor(Math.random() * (planetaryData.length));
                         missionTarget.innerHTML += `
-                        <div>                            
-                            <h2>Mission Destination</h2>   
-                                <ol>        
-                                    <li>Name: ${json[index].name}</li>
-                                    <li>Diameter: ${json[index].diameter}</li>
-                                    <li>Star: ${json[index].star}</li>
-                                    <li>Distance: ${json[index].distance}</li>
-                                    <li>Moons: ${json[index].moons}</li>
-                                </ol>
-                                <img id="missionTarget img" src=${json[index].image}></img>
-                            </div>
-                        `;
-                    // index = (index + 1) % json.length;
+                            <div>                            
+                                <h2>Mission Destination</h2>   
+                                    <ol>        
+                                        <li>Name:       ${planetaryData[index].name}</li>
+                                        <li>Diameter:   ${planetaryData[index].diameter}</li>
+                                        <li>Star:       ${planetaryData[index].star}</li>
+                                        <li>Distance:   ${planetaryData[index].distance}</li>
+                                        <li>Moons:      ${planetaryData[index].moons}</li>
+                                    </ol>
+                                    <img id="missionTarget img" src=${planetaryData[index].image}></img>
+                                </div>
+                            `;
             });
         });
     });
@@ -107,13 +105,14 @@ document.addEventListener("submit", function (event) {
 async function myFetch() {
 let planetsReturned;
 
-planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {
-    planetsReturned.json().then(function (json) {
+await fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {response.json().then(function (planetsReturned) {
 
+    return planetsReturned;
     });
+
 });
 
-return planetsReturned;
+
 }
 
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
